@@ -1,5 +1,6 @@
 package _02_Advanced_Robot_Race;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -9,68 +10,77 @@ import org.jointheleague.graphical.robot.Robot;
 public class AdvancedRobotRace {
 	// Re-do the robot race recipe from level 3 module 0. 
 	// This time, use threads to make all of the robots go at the same time.
-	Robot r1 = new Robot();
-	Robot r2 = new Robot();
 	
 	
 	//1. make a main method
-
-	public static void main(String[] args) {
-	
+	volatile ArrayList<Integer> list = new ArrayList<>();
+	public void start() {
+		Robot referee = new Robot(0,100);
+		referee.turn(90);
+		referee.penDown();
+		referee.setSpeed(100);
+		referee.move(1600);
 		Robot rob1 = new Robot(0,600);
 		Robot rob2 = new Robot(200,600);
 		Robot rob3 = new Robot(400,600);
 		Robot rob4 = new Robot(600,600);
 		Robot rob5 = new Robot(800,600);
 		
-		
+		Runnable r;
 		Thread r1 = new Thread(()->{
-			boolean finish = false;
-			while(!finish) {
-				int rand = (int) (Math.random())+100;
+			
+			while(list.size() == 0) {
+				int rand = (int) (Math.random()*10)+1;
+				rob1.setSpeed((int) (Math.random()*10)+1);
 				rob1.move(rand);
-				if(rob1.getY() == 0) {
-					finish = true;
+				if(rob1.getY() <= 100) {
+					list.add(1);
 				}
 			}
 		});
 		Thread r2 = new Thread(()->{
-			boolean finish = false;
-			while(!finish) {
-				int rand = (int) Math.random()*100;
+			
+			while(list.size() == 0) {
+				int rand = (int) (Math.random()*10)+1;
+				rob2.setSpeed((int) (Math.random()*10)+1);
 				rob2.move(rand);
-				if(rob2.getY() == 0) {
-					finish = true;
+				if(rob2.getY() <= 100) {
+					list.add(1);
 				}
 			}
 		});
 		Thread r3 = new Thread(()->{
-			boolean finish = false;
-			while(!finish) {
-				int rand = (int) Math.random()*100;
+			
+			while(list.size() == 0) {
+				int rand = (int) (Math.random()*10)+1;
+				rob3.setSpeed((int) (Math.random()*10)+1);
 				rob3.move(rand);
-				if(rob3.getY() == 0) {
-					finish = true;
+				if(rob3.getY() <= 100) {
+					list.add(1);
 				}
 			}
 		});
 		Thread r4 = new Thread(()->{
-			boolean finish = false;
-			while(!finish) {
-				int rand = (int) Math.random()*100;
+			
+			while(list.size() == 0) {
+				int rand = (int) (Math.random()*10)+1;
+				rob4.setSpeed((int) (Math.random()*10)+1);
 				rob4.move(rand);
-				if(rob4.getY() == 0) {
-					finish = true;
+				if(rob4.getY() <= 100) {
+					list.add(1);
 				}
 			}
 		});
 		Thread r5 = new Thread(()->{
-			boolean finish = false;
-			while(!finish) {
-				int rand = (int) Math.random()*600;
+		
+			while(list.size() == 0) {
+				int rand = (int) (Math.random()*10)+1;
+				rob5.setSpeed((int) (Math.random()*10)+1);
 				rob5.move(rand);
-				if(rob5.getY() == 0) {
-					finish = true;
+				if(rob5.getY() <= 100) {
+					list.add(1);
+					
+					
 				}
 			}
 		});
@@ -80,6 +90,11 @@ public class AdvancedRobotRace {
 		r3.start();
 		r4.start();
 		r5.start();
+	}
+	public static void main(String[] args) {
+		AdvancedRobotRace arr = new AdvancedRobotRace();
+		arr.start();
+		
 //	Random rand = new Random();
 //	
 //	//2. create an array of 5 robots.
